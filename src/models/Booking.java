@@ -1,10 +1,10 @@
 package models;
 
 public class Booking {
-    private String bookingId; // e.g., "PNR123"
+    private String bookingId; 
     private int userId;
-    private String vehicleId; // Changed from trainNumber to vehicleId
-    private String status;    // "CONFIRMED" or "WAITLIST"
+    private String vehicleId; 
+    private String status;  
 
     public Booking(String bookingId, int userId, String vehicleId, String status) {
         this.bookingId = bookingId;
@@ -15,7 +15,7 @@ public class Booking {
 
     public String getBookingId() { return bookingId; }
     public int getUserId() { return userId; }
-    public String getVehicleId() { return vehicleId; } // Changed getter
+    public String getVehicleId() { return vehicleId; } 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     

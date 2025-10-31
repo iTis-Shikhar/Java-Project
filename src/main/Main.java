@@ -10,21 +10,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    // These lists will hold all our application data in memory
     private static List<User> users;
     private static List<Vehicle> vehicles;
     private static List<Booking> bookings;
 
     public static void main(String[] args) {
-        // Step 1: Load all data from files at the start
         users = DataManager.loadUsers();
         vehicles = DataManager.loadVehicles();
         bookings = DataManager.loadBookings();
-
         Scanner scanner = new Scanner(System.in);
-
-        // This is the main application loop. It runs forever until the user chooses to
-        // exit.
         while (true) {
             System.out.println("\n========================================");
             System.out.println("|   Welcome to the Reservation System  |");
@@ -40,26 +34,23 @@ public class Main {
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Clear the invalid input from the scanner
-                continue; // Skip the rest of the loop and show the menu again
+                scanner.next(); 
+                continue;
             }
 
             switch (choice) {
                 case 1:
-                    // Handle Login
                     handleLogin(scanner);
                     break;
                 case 2:
-                    // Handle Sign Up
                     handleSignUp(scanner);
                     break;
                 case 3:
-                    // Handle Exit
                     System.out.println("Saving data... Thank you for using the system!");
                     DataManager.saveUsers(users);
                     DataManager.saveBookings(bookings);
-                    scanner.close(); // Close the scanner
-                    System.exit(0); // Terminate the program
+                    scanner.close();
+                    System.exit(0); 
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -77,7 +68,7 @@ public class Main {
 
         if (loggedInUser != null) {
             System.out.println("Login successful! Welcome, " + loggedInUser.getUsername());
-            showUserDashboard(loggedInUser, scanner); // Call the dashboard
+            showUserDashboard(loggedInUser, scanner); 
         } else {
             System.out.println("Login failed. Invalid username or password.");
         }
@@ -93,9 +84,7 @@ public class Main {
 
         if (newUser != null) {
             System.out.println("Sign up successful! You can now log in.");
-        } else {
-            // Error message is already printed by the service
-        }
+        } 
     }
 
     private static void showUserDashboard(User loggedInUser, Scanner scanner) {
@@ -113,15 +102,12 @@ public class Main {
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Clear invalid input
+                scanner.next(); 
                 continue;
             }
 
             switch (choice) {
-                // This is just a snippet from the showUserDashboard method in Main.java
-                // Replace the code inside "case 1:" with this:
-
-                case 1: // Search & Book
+                case 1:
                     System.out.print("Enter source: ");
                     String source = scanner.next();
                     System.out.print("Enter destination: ");
@@ -137,7 +123,7 @@ public class Main {
                         }
 
                         System.out.print("Select a vehicle to book (enter number, or 0 to go back): ");
-                        try { // --- ADDED ERROR HANDLING ---
+                        try {
                             int vehicleChoice = scanner.nextInt();
                             if (vehicleChoice > 0 && vehicleChoice <= availableVehicles.size()) {
                                 Vehicle selectedVehicle = availableVehicles.get(vehicleChoice - 1);
@@ -152,14 +138,11 @@ public class Main {
                             }
                         } catch (InputMismatchException e) {
                             System.out.println("Invalid input. Please enter a number.");
-                            scanner.next(); // Clear the bad input
+                            scanner.next();
                         }
                     }
                     break;
-
-                // The rest of the switch statement (case 2, 3, 4) remains the same.
-
-                case 2: // View My Bookings
+                case 2: 
                     List<Booking> myBookings = BookingService.getMyBookings(loggedInUser, bookings);
                     if (myBookings.isEmpty()) {
                         System.out.println("You have no bookings.");
@@ -171,8 +154,7 @@ public class Main {
                         }
                     }
                     break;
-
-                case 3: // Cancel Ticket
+                case 3:
                     System.out.print("Enter the PNR of the booking to cancel: ");
                     String pnrToCancel = scanner.next();
                     boolean success = BookingService.cancelTicket(pnrToCancel, bookings, vehicles);
@@ -182,10 +164,9 @@ public class Main {
                         System.out.println("Cancellation failed. PNR not found.");
                     }
                     break;
-
-                case 4: // Logout
+                case 4:
                     System.out.println("Logging out...");
-                    return; // Exit the dashboard loop and return to the main menu
+                    return;
 
                 default:
                     System.out.println("Invalid choice. Please try again.");
